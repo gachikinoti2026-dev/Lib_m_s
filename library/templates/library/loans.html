@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}My loans{% endblock %}
+{% block content %}
+<h1>My loans</h1>
+<div class="card table-wrap">
+  <table>
+    <thead><tr><th>Book</th><th>Status</th><th>Requested</th><th>Due</th><th>Returned</th><th>Fine</th></tr></thead>
+    <tbody>
+    {% for l in loans %}
+      <tr>
+        <td><strong>{{ l.book }}</strong><div class="muted small">{{ l.book.author }}</div></td>
+        <td><span class="badge {{ l.status }}">{{ l.get_status_display }}</span></td>
+        <td>{{ l.requested_at|date:"j M Y" }}</td>
+        <td>{{ l.due_date|date:"j M Y"|default:"-" }}</td>
+        <td>{{ l.returned_at|date:"j M Y"|default:"-" }}</td>
+        <td>{% if l.fine %}<span class="badge {% if l.fine_paid_at %}ok{% else %}danger{% endif %}">KES {{ l.fine }} {% if l.fine_paid_at %}paid{% elif l.status == "returned" %}unpaid{% else %}and counting{% endif %}</span>{% else %}-{% endif %}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6" class="muted center">You haven't borrowed anything yet. <a href="{% url 'books' %}">Browse books →</a></td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

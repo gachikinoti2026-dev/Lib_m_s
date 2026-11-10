@@ -1,0 +1,54 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Library{% endblock %} · USIU CSE Library</title>
+  <meta name="description" content="USIU CSE Library: search the Computer Science &amp; Engineering collection, request books and track your loans.">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="{% static 'library/favicon.svg' %}" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="{% static 'library/style.css' %}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  {% if user.is_authenticated %}
+  <header class="topbar">
+    {% if user.is_staff %}
+    <a class="brand" href="{% url 'dashboard' %}">{% include "_logo.html" %}<span>USIU <b>CSE Library</b></span></a>
+    <span class="role">Library admin</span>
+    <nav>
+      {% url 'dashboard' as u %}<a href="{{ u }}" {% if request.path == u %}class="active"{% endif %}>Dashboard</a>
+      {% url 'stock' as u %}<a href="{{ u }}" {% if u in request.path %}class="active"{% endif %}>Stock</a>
+      {% if user.is_superuser %}<a href="{% url 'admin:index' %}">Site admin</a>{% endif %}
+    </nav>
+    {% else %}
+    <a class="brand" href="{% url 'home' %}">{% include "_logo.html" %}<span>USIU <b>CSE Library</b></span></a>
+    <nav>
+      {% url 'home' as u %}<a href="{{ u }}" {% if request.path == u %}class="active"{% endif %}>Home</a>
+      {% url 'books' as u %}<a href="{{ u }}" {% if request.path == u %}class="active"{% endif %}>Find books</a>
+      {% url 'my_loans' as u %}<a href="{{ u }}" {% if request.path == u %}class="active"{% endif %}>My loans</a>
+    </nav>
+    {% endif %}
+    <form method="post" action="{% url 'logout' %}" class="logout">
+      {% csrf_token %}
+      <span class="who">{{ user.get_full_name|default:user.username }}</span>
+      <button class="btn ghost small">Log out</button>
+    </form>
+  </header>
+  {% else %}{% block guest_header %}
+  <header class="topbar guest">
+    <a class="brand" href="{% url 'login' %}">{% include "_logo.html" %}<span>USIU <b>CSE Library</b></span></a>
+  </header>
+  {% endblock %}{% endif %}
+
+  <main id="main" class="{% block main_class %}container{% endblock %}">
+    {% for m in messages %}<div class="alert {{ m.tags }}">{{ m }}</div>{% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>&copy; 2026 USIU CSE Library, United States International University-Africa</footer>
+</body>
+</html>

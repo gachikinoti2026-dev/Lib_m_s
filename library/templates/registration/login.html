@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Log in{% endblock %}
+{% block main_class %}auth{% endblock %}
+{% block guest_header %}{% endblock %}
+{% block content %}
+<div class="card auth-card login-card">
+  <div class="auth-brand">{% include "_logo.html" %}<div><h1>USIU CSE Library</h1><p>Computer Science &amp; Engineering</p></div></div>
+  <form method="post" class="form">
+    {% csrf_token %}
+    <fieldset class="role-switch">
+      <legend class="sr-only">I am logging in as</legend>
+      {% for radio in form.role %}{{ radio.tag }}<label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>{% endfor %}
+    </fieldset>
+    <p class="muted for-student">Log in with your Student ID to find and borrow books.</p>
+    <p class="muted for-admin">Log in to manage stock, requests and fines.</p>
+
+    {{ form.non_field_errors }}
+    <div>
+      <label for="{{ form.username.id_for_label }}"><span class="for-student">Student ID</span><span class="for-admin">Username</span></label>
+      {{ form.username }}{{ form.username.errors }}
+    </div>
+    <div>{{ form.password.label_tag }}{{ form.password }}{{ form.password.errors }}</div>
+    <input type="hidden" name="next" value="{{ next }}">
+    <button class="btn wide">Log in</button>
+  </form>
+  <p class="links">
+    <a href="{% url 'password_reset' %}">Forgot password?</a>
+    <a class="for-student" href="{% url 'register' %}">Create a student account</a>
+  </p>
+</div>
+{% endblock %}

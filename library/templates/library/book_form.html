@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{% if book %}Edit book{% else %}Add book{% endif %}{% endblock %}
+{% block content %}
+<p><a href="{% url 'stock' %}">← Back to stock</a></p>
+<div class="card" style="max-width: 640px">
+  <h1>{% if book %}Edit “{{ book }}”{% else %}Add a book{% endif %}</h1>
+  <form method="post" class="form grid-form">
+    {% csrf_token %}
+    {{ form }}
+    <button class="btn wide">{% if book %}Save changes{% else %}Add to stock{% endif %}</button>
+  </form>
+</div>
+{% endblock %}

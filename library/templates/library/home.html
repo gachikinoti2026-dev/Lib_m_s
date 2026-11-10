@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<h1>Welcome, {{ user.first_name|default:user.username }}</h1>
+
+<div class="stats">
+  <a class="stat" href="{% url 'my_loans' %}"><b>{{ active_loans|length }}</b><span>Books on loan</span></a>
+  <a class="stat" href="{% url 'my_loans' %}"><b>{{ pending_count }}</b><span>Pending requests</span></a>
+  <a class="stat" href="{% url 'books' %}"><b>{{ book_count }}</b><span>Titles in the catalogue</span></a>
+  {% if fines_due %}
+  <a class="stat danger" href="{% url 'my_loans' %}"><b>KES {{ fines_due }}</b><span>Unpaid fines, payable at the desk</span></a>
+  {% endif %}
+</div>
+
+<div class="cols">
+  <section class="card">
+    <h2>Currently borrowed</h2>
+    {% for loan in active_loans %}
+      <div class="row">
+        <div><strong>{{ loan.book }}</strong><div class="muted">{{ loan.book.author }}</div></div>
+        {% if loan.overdue_days %}<span class="badge danger">Overdue, KES {{ loan.fine }}</span>
+        {% else %}<span class="badge">Due {{ loan.due_date|date:"j M" }}</span>{% endif %}
+      </div>
+    {% empty %}
+      <p class="muted">Nothing borrowed. <a href="{% url 'books' %}">Browse the catalogue →</a></p>
+    {% endfor %}
+  </section>
+
+  <section class="card">
+    <h2>Announcements</h2>
+    {% for a in announcements %}
+      <div class="row block"><strong>{{ a.title }}</strong><p>{{ a.message|linebreaksbr }}</p>
+        <small class="muted">{{ a.created_at|date:"j M Y" }}</small></div>
+    {% empty %}
+      <p class="muted">No new announcements.</p>
+    {% endfor %}
+  </section>
+</div>
+
+<section class="card">
+  <h2>New arrivals</h2>
+  {% for b in new_arrivals %}
+    <div class="row"><div><strong>{{ b.title }}</strong> <span class="muted">by {{ b.author }}</span></div></div>
+  {% empty %}
+    <p class="muted">The catalogue is empty.</p>
+  {% endfor %}
+</section>
+{% endblock %}

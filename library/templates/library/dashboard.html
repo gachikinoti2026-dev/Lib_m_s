@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Librarian dashboard</h1>
+
+<div class="stats">
+  <a class="stat{% if signups %} accent{% endif %}" href="#signups"><b>{{ signups|length }}</b><span>Accounts to approve</span></a>
+  <a class="stat{% if requests %} accent{% endif %}" href="#requests"><b>{{ requests|length }}</b><span>Borrow requests</span></a>
+  <a class="stat" href="#loans"><b>{{ out|length }}</b><span>Books on loan</span></a>
+  <a class="stat{% if fines_total %} danger{% endif %}" href="#fines"><b>KES {{ fines_total }}</b><span>Unpaid fines</span></a>
+  <a class="stat" href="{% url 'stock' %}?show=out"><b>{{ out_of_stock }}<small> / {{ title_count }}</small></b><span>Titles unavailable</span></a>
+</div>
+
+<h2 id="signups">Student account requests</h2>
+<div class="card table-wrap">
+  <table>
+    <thead><tr><th>Name</th><th>Student ID</th><th>Email</th><th>Phone</th><th>Program</th><th>Department</th><th>Signed up</th><th></th></tr></thead>
+    <tbody>
+    {% for m in signups %}
+      <tr>
+        <td><strong>{{ m.get_full_name }}</strong></td>
+        <td class="mono">{{ m.username }}</td>
+        <td>{{ m.email }}</td>
+        <td>{{ m.phone }}</td>
+        <td>{{ m.program }}</td>
+        <td>{{ m.department|default:"-" }}</td>
+        <td>{{ m.date_joined|date:"j M, H:i" }}</td>
+        <td class="right actions">
+          <form method="post" action="{% url 'review_member' m.id 'approve' %}">{% csrf_token %}<button class="btn small">Approve</button></form>
+          <form method="post" action="{% url 'review_member' m.id 'reject' %}" onsubmit="return confirm('Reject and delete this sign-up?')">{% csrf_token %}<button class="btn small ghost danger">Reject</button></form>
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="8" class="muted center">No accounts waiting for approval.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<h2 id="requests">Borrow requests</h2>
+<div class="card table-wrap">
+  <table>
+    <thead><tr><th>Book</th><th>Member</th><th>Requested</th><th>In stock</th><th></th></tr></thead>
+    <tbody>
+    {% for l in requests %}
+      <tr>
+        <td><strong>{{ l.book }}</strong></td>
+        <td>{{ l.member }}</td>
+        <td>{{ l.requested_at|date:"j M, H:i" }}</td>
+        <td>{{ l.book.available }} / {{ l.book.copies }}</td>
+        <td class="right actions">
+          <form method="post" action="{% url 'update_loan' l.id 'approve' %}">{% csrf_token %}<button class="btn small">Approve</button></form>
+          <form method="post" action="{% url 'update_loan' l.id 'reject' %}">{% csrf_token %}<button class="btn small ghost">Reject</button></form>
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5" class="muted center">No borrow requests waiting.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<h2 id="loans">Books on loan</h2>
+<div class="card table-wrap">
+  <table>
+    <thead><tr><th>Book</th><th>Member</th><th>Due</th><th>Fine</th><th></th></tr></thead>
+    <tbody>
+    {% for l in out %}
+      <tr>
+        <td><strong>{{ l.book }}</strong></td>
+        <td>{{ l.member }}</td>
+        <td>{% if l.overdue_days %}<span class="badge danger">{{ l.overdue_days }} day{{ l.overdue_days|pluralize }} late</span>{% else %}{{ l.due_date|date:"j M Y" }}{% endif %}</td>
+        <td>{% if l.fine %}KES {{ l.fine }}{% else %}-{% endif %}</td>
+        <td class="right"><form method="post" action="{% url 'update_loan' l.id 'return' %}">{% csrf_token %}<button class="btn small ghost">Mark returned</button></form></td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5" class="muted center">No books are out.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<h2 id="fines">Unpaid fines</h2>
+<div class="card table-wrap">
+  <table>
+    <thead><tr><th>Book</th><th>Member</th><th>Returned</th><th>Fine</th><th></th></tr></thead>
+    <tbody>
+    {% for l in unpaid %}
+      <tr>
+        <td><strong>{{ l.book }}</strong></td>
+        <td>{{ l.member }}</td>
+        <td>{{ l.returned_at|date:"j M Y" }} ({{ l.overdue_days }} day{{ l.overdue_days|pluralize }} late)</td>
+        <td><span class="badge danger">KES {{ l.fine }}</span></td>
+        <td class="right"><form method="post" action="{% url 'update_loan' l.id 'pay' %}">{% csrf_token %}<button class="btn small">Mark paid</button></form></td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5" class="muted center">No outstanding fines.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

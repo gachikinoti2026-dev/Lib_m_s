@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Books{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Books in store</h1>
+  <form method="get" class="search">
+    <input type="search" name="q" value="{{ q }}" placeholder="Search title, author or ISBN" aria-label="Search books">
+    <button class="btn">Search</button>
+  </form>
+</div>
+
+<div class="card table-wrap">
+  <table>
+    <thead><tr><th>Title</th><th>Author</th><th>ISBN</th><th>Available</th><th></th></tr></thead>
+    <tbody>
+    {% for b in books %}
+      <tr>
+        <td><strong>{{ b.title }}</strong>{% if b.description %}<div class="muted small">{{ b.description|truncatewords:15 }}</div>{% endif %}</td>
+        <td>{{ b.author }}</td>
+        <td class="mono">{{ b.isbn }}</td>
+        <td><span class="badge {% if b.n_available > 0 %}ok{% else %}danger{% endif %}">{{ b.n_available }} / {{ b.copies }}</span></td>
+        <td class="right">
+          {% if b.id in requested %}
+            <span class="muted small">Requested</span>
+          {% elif b.n_available > 0 %}
+            <form method="post" action="{% url 'borrow' b.id %}">{% csrf_token %}<button class="btn small">Borrow</button></form>
+          {% else %}
+            <span class="muted small">Out of stock</span>
+          {% endif %}
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5" class="muted center">No books found{% if q %} for “{{ q }}”{% endif %}.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
