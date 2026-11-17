@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Book</title>
+</head>
+<body>
+
+    <h1>Delete Book</h1>
+
+    <form action="#" method="get">
+
+        <label for="bookId">Book ID:</label>
+        <input type="text" id="bookId" name="bookId">
+
+        <button type="submit">Search</button>
+
+    </form>
+
+    <hr>
+
+    <h2>Book Details</h2>
+
+    <fieldset>
+        <legend>Selected Book Information</legend>
+
+        <p><strong>Book ID:</strong> B101</p>
+        <p><strong>ISBN:</strong> 9781234567890</p>
+        <p><strong>Title:</strong> Introduction to Programming</p>
+        <p><strong>Author:</strong> John Smith</p>
+        <p><strong>Category:</strong> Technology</p>
+        <p><strong>Publisher:</strong> ABC Publishers</p>
+        <p><strong>Available Copies:</strong> 15</p>
+        <p><strong>Borrowed Copies:</strong> 5</p>
+    </fieldset>
+
+    <br>
+
+    <form action="#" method="post">
+
+        <label for="reason">Reason for Deletion:</label>
+        <br>
+        <textarea id="reason" name="reason" rows="4" cols="50"></textarea>
+
+        <br><br>
+
+        <label>
+            <input type="checkbox" required>
+            I confirm that I want to permanently delete this book record.
+        </label>
+
+        <br><br>
+
+        <button type="submit">Delete Book</button>
+        <button type="button">Cancel</button>
+
+    </form>
+
+    <hr>
+
+    <h2>Recently Deleted Books</h2>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Book ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Date Deleted</th>
+                <th>Deleted By</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>B090</td>
+                <td>Old Computer Science</td>
+                <td>James Brown</td>
+                <td>2026-11-15</td>
+                <td>Administrator</td>
+            </tr>
+
+            <tr>
+                <td>B091</td>
+                <td>Network Fundamentals</td>
+                <td>Sarah Wilson</td>
+                <td>2026-11-14</td>
+                <td>Administrator</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
