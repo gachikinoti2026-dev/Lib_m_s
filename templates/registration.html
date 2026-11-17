@@ -1,52 +1,30 @@
-Registration page
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Management System Registration</title>
-</head>
-<body>
+{% block title %}Registration{% endblock %}
 
-    <h1> Library Management System Registration</h1>
-    <p>Create a new library account</p>
+{% block content %}
+<h2>Member Registration</h2>
 
-    <form action="#" method="post">
+<form method="POST">
+    {% csrf_token %}
 
-        <label for="fullname">Full Name:</label><br>
-        <input type="text" id="fullname" name="fullname" required><br><br>
+    <label>Full Name</label><br>
+    <input type="text" name="fullname"><br><br>
 
-        <label for="studentid">Student/Member ID:</label><br>
-        <input type="text" id="studentid" name="studentid" required><br><br>
+    <label>Email</label><br>
+    <input type="email" name="email"><br><br>
 
-        <label for="email">Email Address:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
+    <label>Phone Number</label><br>
+    <input type="text" name="phone"><br><br>
 
-        <label for="phone">Phone Number:</label><br>
-        <input type="tel" id="phone" name="phone" required><br><br>
+    <label>Username</label><br>
+    <input type="text" name="username"><br><br>
 
-        <label for="department">Department/Faculty:</label><br>
-        <input type="text" id="department" name="department"><br><br>
+    <label>Password</label><br>
+    <input type="password" name="password"><br><br>
 
-        <label for="address">Address:</label><br>
-        <textarea id="address" name="address" rows="4" cols="30"></textarea><br><br>
+    <button type="submit">Register</button>
+</form>
+{% endblock %}
 
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
 
-        <label for="confirmPassword">Confirm Password:</label><br>
-        <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
-
-        <button type="submit">Register</button>
-        <button type="reset">Clear Form</button>
-
-    </form>
-
-    <br>
-
-    <p>Already have an account?</p>
-    <a href="login.html">Login Here</a>
-
-</body>
-</html>

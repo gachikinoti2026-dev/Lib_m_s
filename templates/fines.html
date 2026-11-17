@@ -1,128 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Fines</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Library Fines Management</h1>
+{% block title %}Fines{% endblock %}
 
-    <form action="#" method="get">
-        <label for="searchMember">Search Member:</label>
-        <input type="text" id="searchMember" name="searchMember"
-               placeholder="Member ID or Name">
+{% block content %}
+<h2>Library Fines</h2>
 
-        <button type="submit">Search</button>
-    </form>
+<table border="1">
+    <tr>
+        <th>Member</th>
+        <th>Book</th>
+        <th>Days Late</th>
+        <th>Fine Amount</th>
+    </tr>
 
-    <hr>
+    {% for fine in fines %}
+    <tr>
+        <td>{{ fine.member }}</td>
+        <td>{{ fine.book }}</td>
+        <td>{{ fine.days_late }}</td>
+        <td>{{ fine.amount }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
 
-    <h2>Fine Records</h2>
-
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Fine ID</th>
-                <th>Member ID</th>
-                <th>Member Name</th>
-                <th>Book ID</th>
-                <th>Book Title</th>
-                <th>Days Overdue</th>
-                <th>Fine Amount</th>
-                <th>Status</th>
-                <th>Date Issued</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr>
-                <td>F001</td>
-                <td>M001</td>
-                <td>John Doe</td>
-                <td>B101</td>
-                <td>Introduction to Programming</td>
-                <td>10</td>
-                <td>$10.00</td>
-                <td>Unpaid</td>
-                <td>2026-11-15</td>
-                <td>
-                    <button type="button">View</button>
-                    <button type="button">Pay</button>
-                </td>
-            </tr>
-
-            <tr>
-                <td>F002</td>
-                <td>M002</td>
-                <td>Jane Smith</td>
-                <td>B205</td>
-                <td>Database Systems</td>
-                <td>5</td>
-                <td>$5.00</td>
-                <td>Paid</td>
-                <td>2026-11-10</td>
-                <td>
-                    <button type="button">View</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <hr>
-
-    <h2>Fine Details</h2>
-
-    <fieldset>
-        <legend>Selected Fine</legend>
-
-        <p><strong>Fine ID:</strong> F001</p>
-        <p><strong>Member:</strong> John Doe</p>
-        <p><strong>Book:</strong> Introduction to Programming</p>
-        <p><strong>Days Overdue:</strong> 10</p>
-        <p><strong>Fine Amount:</strong> $10.00</p>
-        <p><strong>Status:</strong> Unpaid</p>
-    </fieldset>
-
-    <br>
-
-    <h2>Record Fine Payment</h2>
-
-    <form action="#" method="post">
-
-        <label for="fineId">Fine ID:</label>
-        <input type="text" id="fineId" name="fineId" value="F001" readonly>
-
-        <br><br>
-
-        <label for="paymentAmount">Amount Paid:</label>
-        <input type="number" id="paymentAmount" name="paymentAmount" min="0" step="0.01">
-
-        <br><br>
-
-        <label for="paymentMethod">Payment Method:</label>
-        <select id="paymentMethod" name="paymentMethod">
-            <option value="cash">Cash</option>
-            <option value="card">Card</option>
-            <option value="mobile">Mobile Money</option>
-            <option value="bank">Bank Transfer</option>
-        </select>
-
-        <br><br>
-
-        <button type="submit">Record Payment</button>
-    </form>
-
-    <hr>
-
-    <h2>Fine Summary</h2>
-
-    <p>Total Fines Issued: 25</p>
-    <p>Total Outstanding Fines: $150.00</p>
-    <p>Total Collected Fines: $1,250.00</p>
-    <p>Unpaid Fines: 8</p>
-
-</body>
-</html>

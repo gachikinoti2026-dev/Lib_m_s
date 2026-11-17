@@ -1,126 +1,22 @@
-!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Books Inventory</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Books Inventory</h1>
+{% block title %}Unpaid Debts{% endblock %}
 
-    <form action="#" method="get">
-        <label for="searchBook">Search Book:</label>
-        <input type="text" id="searchBook" name="searchBook" placeholder="Enter Book Title, Author, or ISBN">
+{% block content %}
+<h2>Unpaid Debts</h2>
 
-        <button type="submit">Search</button>
-    </form>
+<table border="1">
+    <tr>
+        <th>Member</th>
+        <th>Amount Due</th>
+    </tr>
 
-    <br>
+    {% for debt in debts %}
+    <tr>
+        <td>{{ debt.member }}</td>
+        <td>{{ debt.amount }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
 
-    <fieldset>
-        <legend>Add New Book</legend>
-
-        <label for="bookId">Book ID:</label>
-        <input type="text" id="bookId" name="bookId">
-        <br><br>
-
-        <label for="isbn">ISBN:</label>
-        <input type="text" id="isbn" name="isbn">
-        <br><br>
-
-        <label for="title">Book Title:</label>
-        <input type="text" id="title" name="title">
-        <br><br>
-
-        <label for="author">Author:</label>
-        <input type="text" id="author" name="author">
-        <br><br>
-
-        <label for="category">Category:</label>
-        <input type="text" id="category" name="category">
-        <br><br>
-
-        <label for="publisher">Publisher:</label>
-        <input type="text" id="publisher" name="publisher">
-        <br><br>
-
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity">
-        <br><br>
-
-        <button type="submit">Add Book</button>
-        <button type="reset">Clear</button>
-    </fieldset>
-
-    <br>
-
-    <h2>Available Books</h2>
-
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Book ID</th>
-                <th>ISBN</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Category</th>
-                <th>Publisher</th>
-                <th>Total Copies</th>
-                <th>Available</th>
-                <th>Borrowed</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr>
-                <td>B101</td>
-                <td>9781234567890</td>
-                <td>Introduction to Programming</td>
-                <td>John Smith</td>
-                <td>Technology</td>
-                <td>ABC Publishers</td>
-                <td>20</td>
-                <td>15</td>
-                <td>5</td>
-                <td>In Stock</td>
-                <td>
-                    <button type="button">View</button>
-                    <button type="button">Edit</button>
-                    <button type="button">Delete</button>
-                </td>
-            </tr>
-
-            <tr>
-                <td>B102</td>
-                <td>9789876543210</td>
-                <td>Database Systems</td>
-                <td>Jane Wilson</td>
-                <td>Technology</td>
-                <td>XYZ Publishers</td>
-                <td>10</td>
-                <td>0</td>
-                <td>10</td>
-                <td>Out of Stock</td>
-                <td>
-                    <button type="button">View</button>
-                    <button type="button">Edit</button>
-                    <button type="button">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <br>
-
-    <h2>Inventory Summary</h2>
-
-    <p>Total Books: 30</p>
-    <p>Available Books: 15</p>
-    <p>Borrowed Books: 15</p>
-    <p>Out of Stock Titles: 1</p>
-
-</body>
-</html>

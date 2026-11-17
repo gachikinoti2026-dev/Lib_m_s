@@ -1,87 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pending Borrow Requests</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Pending Borrow Requests</h1>
+{% block title %}Pending Returns{% endblock %}
 
-    <form action="#" method="get">
-        <label for="search">Search Request:</label>
-        <input type="text" id="search" name="search" placeholder="Member ID, Name, or Book Title">
+{% block content %}
+<h2>Pending Returns</h2>
 
-        <button type="submit">Search</button>
-    </form>
+<table border="1">
+    <tr>
+        <th>Member</th>
+        <th>Book</th>
+        <th>Borrow Date</th>
+        <th>Due Date</th>
+    </tr>
 
-    <br>
+    {% for item in pending %}
+    <tr>
+        <td>{{ item.member }}</td>
+        <td>{{ item.book }}</td>
+        <td>{{ item.borrow_date }}</td>
+        <td>{{ item.due_date }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Request ID</th>
-                <th>Member ID</th>
-                <th>Member Name</th>
-                <th>Book ID</th>
-                <th>Book Title</th>
-                <th>Request Date</th>
-                <th>Available Copies</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
 
-        <tbody>
-            <tr>
-                <td>REQ001</td>
-                <td>M001</td>
-                <td>John Doe</td>
-                <td>B101</td>
-                <td>Introduction to Programming</td>
-                <td>2026-11-15</td>
-                <td>3</td>
-                <td>Pending</td>
-                <td>
-                    <button type="button">Approve</button>
-                    <button type="button">Reject</button>
-                    <button type="button">View Details</button>
-                </td>
-            </tr>
-
-            <tr>
-                <td>REQ002</td>
-                <td>M002</td>
-                <td>Jane Smith</td>
-                <td>B205</td>
-                <td>Database Systems</td>
-                <td>2026-11-16</td>
-                <td>1</td>
-                <td>Pending</td>
-                <td>
-                    <button type="button">Approve</button>
-                    <button type="button">Reject</button>
-                    <button type="button">View Details</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <br>
-
-    <h2>Request Details</h2>
-
-    <fieldset>
-        <legend>Selected Request Information</legend>
-
-        <p><strong>Request ID:</strong> REQ001</p>
-        <p><strong>Member:</strong> John Doe (M001)</p>
-        <p><strong>Book:</strong> Introduction to Programming (B101)</p>
-        <p><strong>Request Date:</strong> 2026-11-15</p>
-        <p><strong>Available Copies:</strong> 3</p>
-        <p><strong>Status:</strong> Pending</p>
-    </fieldset>
-
-</body>
-</html>
